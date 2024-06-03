@@ -3,11 +3,18 @@
 namespace App\Livewire;
 
 use App\Models\Board;
+use App\Services\BoardService;
+use App\Trait\Livewire\ValidationHandlingTrait;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class Boards extends Component
 {
+    use ValidationHandlingTrait;
+
+    private BoardService $boardService;
+
     public Collection $boards;
     public string $name;
     public string $color_hash;
@@ -18,6 +25,11 @@ class Boards extends Component
     public int $editModalIsOpen = 0;
     public int $deleteModalIsOpen = 0;
 
+    public function boot(BoardService $boardService)
+    {
+        $this->boardService = $boardService;
+    }
+
     public function mount(): void
     {
         $this->groupData();
@@ -25,86 +37,43 @@ class Boards extends Component
 
     public function groupData(): void
     {
-        $this->boards = Board::orderBy('order')->get();
+        $this->boards = $this->boardService->getAllOrderedByOrder();
     }
 
     public function render()
     {
-        $this->boards = Board::orderBy('order')->get();
         return view('livewire.boards.index');
     }
 
     public function store(): void
     {
-        $this->validate([
-            'name' => 'required|unique:boards,name',
-        ]);
-
-        $currentMaxOrderBoard = Board::select('order')->orderBy('order', 'desc')->first();
-
-        if ($currentMaxOrderBoard) {
-            $order = $currentMaxOrderBoard->order + 1;
-        } else {
-            $order = 1;
+        try {
+            $this->boardService->create($this->name, $this->color_hash);
+            $this->closeCreateModal();
+            $this->groupData();
+        } catch (ValidationException $e) {
+            $this->handleValidationError($e);
         }
-
-        Board::create([
-            'name' => $this->name,
-            'color_hash' => $this->color_hash,
-            'order' => $order
-        ]);
-
-        $this->closeCreateModal();
-        $this->groupData();
     }
 
     public function update(): void
     {
-        $this->validate([
-            'name' => 'required|unique:boards,name,' . $this->currentBoard->id,
-            'color_hash' => 'required|string'
-        ]);
-
-        $this->currentBoard->update([
-            'name' => $this->name,
-            'color_hash' => $this->color_hash
-        ]);
+        $this->boardService->update($this->currentBoard, $this->name, $this->color_hash);
 
         session()->flash('message', 'Board updated successfully.');
 
         $this->closeEditModal();
     }
 
-    public function updateBoardOrder($orderedData): void
+    public function updateBoardOrder(array $orderedData): void
     {
-        foreach ($orderedData as $group) {
-            if (count($group['items']) > 1) {
-                $itemToBeReplaced = Board::where('order', $group['order'])->first();
-
-                foreach($group['items'] as $item) {
-                    if ($item['value'] !== (string)$itemToBeReplaced->id) {
-                        $replacingItem = Board::find($item['value']);
-                    }
-                }
-            }
-        }
-
-        if (isset($replacingItem) && isset($itemToBeReplaced)) {
-            $replacingItemOrder = $replacingItem->order;
-
-            $replacingItem->order = $itemToBeReplaced->order;
-            $replacingItem->save();
-
-            $itemToBeReplaced->order = $replacingItemOrder;
-            $itemToBeReplaced->save();
-        }
-
+        $this->boardService->updateBoardOrder($orderedData);
         $this->groupData();
     }
 
     public function delete(): void
     {
-        $this->currentBoard->delete();
+        $this->boardService->destroy($this->currentBoard->id);
         session()->flash('message', 'Board deleted successfully.');
         $this->closeDeleteModal();
         $this->groupData();
@@ -124,7 +93,7 @@ class Boards extends Component
 
     public function openEditModal($boardId): void
     {
-        $this->currentBoard = Board::find($boardId);
+        $this->currentBoard = $this->boardService->find($boardId);
         $this->name = $this->currentBoard->name;
         $this->color_hash = $this->currentBoard->color_hash;
         $this->editModalIsOpen = true;
@@ -138,7 +107,7 @@ class Boards extends Component
 
     public function openDeleteModal($boardId): void
     {
-        $this->currentBoard = Board::find($boardId);
+        $this->currentBoard = $this->boardService->find($boardId);
         $this->deleteModalIsOpen = true;
     }
 
