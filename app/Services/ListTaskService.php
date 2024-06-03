@@ -73,4 +73,14 @@ class ListTaskService
 
         return $task ? $task->order : 0;
     }
+
+    public function delete(ListTask $task): void
+    {
+        $task->delete();
+    }
+
+    public function find(int $id): object
+    {
+        return $this->model::find($id);
+    }
 }

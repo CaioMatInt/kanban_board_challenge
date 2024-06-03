@@ -152,7 +152,7 @@ class ShowBoards extends Component
 
     public function deleteTask()
     {
-        $this->taskDetails->delete();
+        $this->listTaskService->delete($this->taskDetails);
 
         session()->flash('message','Task deleted successfully.');
 
@@ -190,7 +190,7 @@ class ShowBoards extends Component
     public function openTaskDetails($id)
     {
         $this->editTaskModalIsOpen = true;
-        $this->taskDetails = ListTask::find($id);
+        $this->taskDetails = $this->listTaskService->find($id);
         $this->taskDetailName = $this->taskDetails->name;
         $this->taskDetailDescription = $this->taskDetails->description;
     }
