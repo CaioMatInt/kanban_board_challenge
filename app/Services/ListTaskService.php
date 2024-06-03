@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Http\Requests\StoreListTaskRequest;
-use App\Models\BoardList;
 use App\Models\ListTask;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;

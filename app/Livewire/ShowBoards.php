@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\Board;
-use App\Models\BoardList;
 use App\Models\ListTask;
 use App\Services\BoardListService;
 use App\Services\BoardService;
