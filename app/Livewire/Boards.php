@@ -13,6 +13,11 @@ class Boards extends Component
     public $boards, $name, $color_hash, $board_id, $show = 0;
     public $isOpen = 0;
 
+    public $editModalIsOpen = 0;
+    public $deleteModalIsOpen = 0;
+
+    public $currentBoardDetails;
+
 
     public function mount()
     {
@@ -116,20 +121,51 @@ class Boards extends Component
         $this->groupData();
     }
 
-    //@@TODO: Implementar esses dois e por a validacao da name unico
-/*    public function edit($id)
+    public function update()
     {
-        $board = Board::findOrFail($id);
-        $this->board_id = $id;
-        $this->name = $board->name;
-        $this->color_hash = $board->color_hash;
+        $this->validate([
+            'name' => 'required|unique:boards,name,' . $this->board_id,
+        ]);
 
-        $this->openModal();
+        Board::find($this->currentBoardDetails->id)->update([
+            'name' => $this->name,
+        ]);
+
+        session()->flash('message', 'Board Updated Successfully.');
+
+        $this->closeEditModal();
     }
 
-    public function delete($id)
+    public function delete()
     {
-        Board::find($id)->delete();
-        session()->flash('message', 'Board Deleted Successfully.');
-    }*/
+        Board::find($this->currentBoardDetails->id)->delete();
+        $this->groupData();
+    }
+
+    public function openEditModal($boardId)
+    {
+        $this->currentBoardDetails = Board::find($boardId);
+        $this->name = $this->currentBoardDetails->name;
+        $this->editModalIsOpen = true;
+    }
+
+    public function closeEditModal()
+    {
+        $this->currentBoardDetails = null;
+        $this->name = null;
+        $this->editModalIsOpen = false;
+        $this->groupData();
+    }
+
+    public function openDeleteModal($boardId)
+    {
+        $this->currentBoardDetails = Board::find($boardId);
+        $this->deleteModalIsOpen = true;
+    }
+
+    public function closeDeleteModal()
+    {
+        $this->currentBoardDetails = null;
+        $this->deleteModalIsOpen = false;
+    }
 }

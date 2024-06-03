@@ -31,7 +31,7 @@ class ShowBoards extends Component
     public $taskDetailName;
     public $taskDetailDescription;
 
-    public $currentListNameToAddTask;
+    public $currentListIdToAddTask;
 
     public $editTaskModalIsOpen = 0;
     public ListTask $taskDetails;
@@ -82,11 +82,13 @@ class ShowBoards extends Component
 
     public function openModal()
     {
+        $this->name = '';
         $this->createListModalIsOpen = true;
     }
 
     public function closeModal()
     {
+        $this->name = '';
         $this->createListModalIsOpen = false;
     }
 
@@ -133,9 +135,9 @@ class ShowBoards extends Component
         $this->groupData();
     }
 
-    public function openCreateTaskModal($currentListNameToAddTask)
+    public function openCreateTaskModal($listId)
     {
-        $this->currentListNameToAddTask = $currentListNameToAddTask;
+        $this->currentListIdToAddTask = $listId;
         $this->newTaskDescription = '';
         $this->newTaskName = '';
         $this->createTaskModalIsOpen = true;
@@ -162,7 +164,7 @@ class ShowBoards extends Component
             $order = 1;
         }
 
-        $list = BoardList::find($this->currentListNameToAddTask);
+        $list = BoardList::find($this->currentListIdToAddTask);
 
         ListTask::create([
             'name' => $this->newTaskName,
@@ -224,5 +226,15 @@ class ShowBoards extends Component
             $this->groupData();
             $this->dispatch('att');
         }
+    }
+
+    public function deleteTask()
+    {
+        $this->taskDetails->delete();
+
+        session()->flash('message','Task deleted successfully.');
+
+        $this->closeTaskDetails();
+        $this->groupData();
     }
 }

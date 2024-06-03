@@ -1,5 +1,16 @@
 <div class="py-12">
 
+    @if($isOpen)
+        @include('livewire.create')
+    @endif
+
+    @if($editModalIsOpen)
+        @include('livewire.edit')
+    @endif
+
+    @if($deleteModalIsOpen)
+        @include('livewire.delete')
+    @endif
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
@@ -28,11 +39,6 @@
                 </div>
             </div>
 
-
-            @if($isOpen)
-                @include('livewire.create')
-            @endif
-
             <hr>
 
             <div>
@@ -45,11 +51,29 @@
                                     <div class="bg-white rounded-lg shadow-md p-2 h-32 cursor-pointer"
                                          wire:sortable-group.item-group="{{ $board->id }}" style="background-color: {{ $board->color_hash }};">
 
-                                        <div wire:key="board-{{ $board->id }}"
-                                             wire:sortable-group.handle
-                                             wire:sortable-group.item="{{ $board->id }}"
-                                             class="rounded-lg text-white text-lg">
-                                            <span>{{ $board->name }}</span>
+
+                                        <div class="flex justify-between rounded-lg mb-2">
+                                            <div wire:key="board-{{ $board->id }}"
+                                                 wire:sortable-group.handle
+                                                 wire:sortable-group.item="{{ $board->id }}"
+                                                 class="rounded-lg text-white text-lg h-32">
+                                                <span>{{ $board->name }}</span>
+                                            </div>
+
+                                            <div class="grid grid-cols-2 w-auto mt-1">
+                                                <div class="mr-1">
+                                                    <button class="text-gray-200"
+                                                            wire:click.prevent="openEditModal('{{ $board->id }}')">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="mr-1">
+                                                    <button class="text-gray-200"
+                                                            wire:click.prevent="openDeleteModal('{{ $board->id }}')">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -59,35 +83,6 @@
                     </div>
                 </div>
             </div>
-
-
-            {{--            <table class="table-fixed w-full">
-                            <thead>
-                            <tr class="bg-gray-100">
-                                <th class="px-4 py-2">Name</th>
-                                <th class="px-4 py-2">Color</th>
-                                <th class="px-4 py-2 w-60">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($boards as $board)
-
-                                <tr>
-                                    <td class="border px-4 py-2">{{ $board->name }}</td>
-                                    <td class="border px-4 py-2">{{ $board->color_hash }}</td>
-                                    <td class="border px-4 py-2 text-center">
-                                        <button wire:click="edit({{ $board->id }})"
-                                                class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Edit
-                                        </button>
-                                        <button wire:click="delete({{ $board->id }})"
-                                                class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded">Delete
-                                        </button>
-
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>--}}
         </div>
     </div>
 </div>
