@@ -124,11 +124,13 @@ class Boards extends Component
     public function update()
     {
         $this->validate([
-            'name' => 'required|unique:boards,name,' . $this->board_id,
+            'name' => 'required|unique:boards,name,' . $this->currentBoardDetails->id,
+            'color_hash' => 'required|string'
         ]);
 
         Board::find($this->currentBoardDetails->id)->update([
             'name' => $this->name,
+            'color_hash' => $this->color_hash
         ]);
 
         session()->flash('message', 'Board Updated Successfully.');
@@ -139,6 +141,8 @@ class Boards extends Component
     public function delete()
     {
         Board::find($this->currentBoardDetails->id)->delete();
+        session()->flash('message', 'Board Deleted Successfully.');
+        $this->closeDeleteModal();
         $this->groupData();
     }
 
@@ -146,6 +150,7 @@ class Boards extends Component
     {
         $this->currentBoardDetails = Board::find($boardId);
         $this->name = $this->currentBoardDetails->name;
+        $this->color_hash = $this->currentBoardDetails->color_hash;
         $this->editModalIsOpen = true;
     }
 
@@ -153,6 +158,7 @@ class Boards extends Component
     {
         $this->currentBoardDetails = null;
         $this->name = null;
+        $this->color_hash = null;
         $this->editModalIsOpen = false;
         $this->groupData();
     }

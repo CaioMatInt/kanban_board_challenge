@@ -19,7 +19,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="exampleFormControlInput2" class="block text-gray-700 text-sm font-bold mb-2">Color:</label>
-                            <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput2" wire:model="color_hash" placeholder="Enter Color"></textarea>
+                            <input type="button" class="shadow appearance-none border rounded w-32 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="color-input" wire:model="color_hash" placeholder="Click to choose a color">
                             @error('color') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                     </div>
