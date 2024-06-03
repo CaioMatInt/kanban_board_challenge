@@ -49,7 +49,7 @@
                 <div class="text-center sm:text-right" wire:ignore>
                     <input type="text" id="color-input" value="{{ $board->color_hash }}">
 
-                    <button wire:click="openModal()"
+                    <button wire:click="openCreateListModal()"
                             class="h-11 bg-green-600 hover:bg-green-600 text-white py-1 mb-6 px-3 rounded my-3 mt-1">
                         + New List
                     </button>
@@ -63,7 +63,7 @@
                 <div>
                     <div class="container mx-auto py-8">
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-                             wire:sortable="updateTaskOrder" wire:sortable-group="updateTaskStatus">
+                             wire:sortable="updateTaskOrderOrGroup" wire:sortable-group="updateTaskOrderOrGroup">
                             @foreach($lists as $list)
 
                                 <div class=" rounded-lg bg-gray-50 p-3" wire:key="group-{{ $list->id }}">

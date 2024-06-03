@@ -5,11 +5,18 @@ namespace App\Livewire;
 use App\Models\Board;
 use App\Models\BoardList;
 use App\Models\ListTask;
+use App\Services\BoardListService;
+use App\Services\BoardService;
+use App\Services\ListTaskService;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class ShowBoards extends Component
 {
+    private BoardService $boardService;
+    private BoardListService $boardListService;
+    private ListTaskService $listTaskService;
+
     public $colorHash = '#bd054e';
     public string $name;
     public array $tasksByListNames = [];
@@ -36,38 +43,22 @@ class ShowBoards extends Component
     public int $deleteListModalIsOpen = 0;
     public int $editTaskModalIsOpen = 0;
 
-    public function mount($id)
+
+    //@@TODO: Bug when there are two lists with the same name
+    public function boot(
+        BoardService $boardService,
+        BoardListService $boardListService,
+        ListTaskService $listTaskService
+    ): void
+    {
+        $this->boardService = $boardService;
+        $this->boardListService = $boardListService;
+        $this->listTaskService = $listTaskService;
+    }
+
+    public function mount($id): void
     {
         $this->boardId = $id;
-        $this->groupData();
-    }
-
-    public function groupData()
-    {
-        $this->board = Board::find($this->boardId);
-        $this->name = $this->board->name;
-        $this->lists = BoardList::where('board_id', $this->boardId)->orderBy('order')->get();
-        $this->tasksByListNames = [];
-
-        foreach ($this->lists as $list)
-        {
-            $this->tasksByListNames[$list->name] = ListTask::where('board_list_id', $list->id)->orderBy('order')->get();
-        }
-    }
-
-    public function updateTaskStatus($orderedData)
-    {
-        foreach ($orderedData as $group) {
-            foreach ($group['items'] as $item)
-            {
-                $boardList = BoardList::find($group['value']);
-                ListTask::find($item['value'])->update([
-                    "order" => $item['order'],
-                    "board_list_id" => $boardList->id
-                ]);
-
-            }
-        }
         $this->groupData();
     }
 
@@ -76,74 +67,48 @@ class ShowBoards extends Component
         return view('livewire.boards.show');
     }
 
-    public function openModal()
+    public function groupData(): void
     {
-        $this->newListName = '';
-        $this->createListModalIsOpen = true;
-    }
+        $this->board = $this->boardService->find($this->boardId);
+        $this->name = $this->board->name;
+        $this->lists = $this->boardListService->getOrderedByBoardId($this->boardId);
+        $this->tasksByListNames = [];
 
-    public function closeModal()
-    {
-        $this->newListName = '';
-        $this->createListModalIsOpen = false;
-    }
-
-    public function store()
-    {
-        $this->validate([
-            'newListName' => 'required',
-        ]);
-
-        $currentMaxOrderList = BoardList::select('order')->orderBy('order', 'desc')->first();
-
-        if ($currentMaxOrderList) {
-            $order = $currentMaxOrderList->order + 1;
-        } else {
-            $order = 1;
+        foreach ($this->lists as $list) {
+            $this->tasksByListNames[$list->name] = $this->listTaskService->getOrderedByBoardListId($list->id);
         }
+    }
 
-        //@@TODO: e se der erro?
-        BoardList::create([
-            'name' => $this->newListName,
-            'board_id' => $this->boardId,
-            'order' => $order
-        ]);
+    public function updateTaskOrderOrGroup($orderedData): void
+    {
+        $this->listTaskService->updateTaskOrderOrGroup($orderedData);
+        $this->groupData();
+    }
+
+    public function storeList(): void
+    {
+        $this->boardListService->create($this->newListName, $this->boardId);
 
         session()->flash('message','List created successfully.');
 
-        $this->closeModal();
+        $this->closeCreateListModal();
         $this->groupData();
     }
 
-    public function updateListName($id, $newName)
+    public function updateListName($id, $newName): void
     {
-        BoardList::find($id)->update(['name' => $newName]);
+        $this->boardListService->update($id, $newName);
         $this->groupData();
     }
 
-    public function deleteList()
+    public function deleteList(): void
     {
-        $list = BoardList::find($this->currentListIdToDelete);
-        ListTask::where('board_list_id', $list->id)->delete();
+        $list = $this->boardListService->find($this->currentListIdToDelete);
+        $this->listTaskService->deleteByBoardListId($list->id);
 
-        $list->delete();
+        $this->boardListService->delete($list);
         $this->closeDeleteListModal();
         $this->groupData();
-    }
-
-    public function openCreateTaskModal($listId)
-    {
-        $this->currentListIdToAddTask = $listId;
-        $this->newTaskDescription = '';
-        $this->newTaskName = '';
-        $this->createTaskModalIsOpen = true;
-    }
-
-    public function closeCreateTaskModal()
-    {
-        $this->newTaskDescription = '';
-        $this->newTaskName = '';
-        $this->createTaskModalIsOpen = false;
     }
 
     public function storeNewTask()
@@ -173,19 +138,6 @@ class ShowBoards extends Component
 
         $this->closeCreateTaskModal();
         $this->groupData();
-    }
-
-    public function openTaskDetails($id)
-    {
-        $this->editTaskModalIsOpen = true;
-        $this->taskDetails = ListTask::find($id);
-        $this->taskDetailName = $this->taskDetails->name;
-        $this->taskDetailDescription = $this->taskDetails->description;
-    }
-
-    public function closeTaskDetails()
-    {
-        $this->editTaskModalIsOpen = false;
     }
 
     public function updateTaskDetails()
@@ -232,6 +184,46 @@ class ShowBoards extends Component
 
         $this->closeTaskDetails();
         $this->groupData();
+    }
+
+    public function openCreateListModal()
+    {
+        $this->newListName = '';
+        $this->createListModalIsOpen = true;
+    }
+
+    public function closeCreateListModal()
+    {
+        $this->newListName = '';
+        $this->createListModalIsOpen = false;
+    }
+
+    public function openCreateTaskModal($listId)
+    {
+        $this->currentListIdToAddTask = $listId;
+        $this->newTaskDescription = '';
+        $this->newTaskName = '';
+        $this->createTaskModalIsOpen = true;
+    }
+
+    public function closeCreateTaskModal()
+    {
+        $this->newTaskDescription = '';
+        $this->newTaskName = '';
+        $this->createTaskModalIsOpen = false;
+    }
+
+    public function openTaskDetails($id)
+    {
+        $this->editTaskModalIsOpen = true;
+        $this->taskDetails = ListTask::find($id);
+        $this->taskDetailName = $this->taskDetails->name;
+        $this->taskDetailDescription = $this->taskDetails->description;
+    }
+
+    public function closeTaskDetails()
+    {
+        $this->editTaskModalIsOpen = false;
     }
 
     public function openDeleteListModal($id)
