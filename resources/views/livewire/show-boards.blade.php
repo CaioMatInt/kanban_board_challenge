@@ -13,6 +13,10 @@
             @include('livewire.tasks.edit')
         @endif
 
+        @if($deleteListModalIsOpen)
+            @include('livewire.lists.delete')
+        @endif
+
         @if (session()->has('message'))
             <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md my-3"
                  role="alert">
@@ -40,14 +44,9 @@
 
                     @error('name') <span class="text-red-500">{{ $message }}</span>@enderror
 
-
                 </div>
                 <div class="text-center sm:text-right" wire:ignore>
                     <input type="text" id="color-input" value="{{ $board->color_hash }}">
-                    {{--<div id="color-picker-container">
-                        <input type="text" class="color-picker" id="color-input" value="#bd054e">
-                    </div>--}}
-
 
                     <button wire:click="openModal()"
                             class="h-11 bg-green-600 hover:bg-green-600 text-white py-1 mb-6 px-3 rounded my-3 mt-1">
@@ -85,7 +84,7 @@
                                             </div>
                                             <div class="mr-1">
                                                <button class="text-gray-400 hover:text-red-700"
-                                                            wire:click="deleteList('{{ $list->id }}')">
+                                                            wire:click="openDeleteListModal('{{ $list->id }}')">
                                                         <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </div>
@@ -140,15 +139,7 @@
                 });
             }
 
-            console.log('DOMContentLoaded event triggered');
-
             initializeColoris();
-
-
-         /*   Livewire.on('att', function () {
-                console.log('Evento att recebido');
-                initializeColoris();
-            });*/
         });
     </script>
 </div>

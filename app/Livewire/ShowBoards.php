@@ -22,6 +22,7 @@ class ShowBoards extends Component
 
     public $createListModalIsOpen = 0;
     public $createTaskModalIsOpen = 0;
+    public $deleteListModalIsOpen = 0;
 
     public $listName;
 
@@ -35,6 +36,8 @@ class ShowBoards extends Component
 
     public $editTaskModalIsOpen = 0;
     public ListTask $taskDetails;
+
+    public $currentListIdToDelete;
 
     public function mount($id)
     {
@@ -126,12 +129,13 @@ class ShowBoards extends Component
         $this->groupData();
     }
 
-    public function deleteList($id)
+    public function deleteList()
     {
-        $list = BoardList::find($id);
+        $list = BoardList::find($this->currentListIdToDelete);
         ListTask::where('board_list_id', $list->id)->delete();
 
         $list->delete();
+        $this->closeDeleteListModal();
         $this->groupData();
     }
 
@@ -236,5 +240,17 @@ class ShowBoards extends Component
 
         $this->closeTaskDetails();
         $this->groupData();
+    }
+
+    public function openDeleteListModal($id)
+    {
+        $this->deleteListModalIsOpen = true;
+        $this->currentListIdToDelete = $id;
+    }
+
+    public function closeDeleteListModal()
+    {
+        $this->deleteListModalIsOpen = false;
+        $this->currentListIdToDelete = null;
     }
 }
