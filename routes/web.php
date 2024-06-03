@@ -26,3 +26,6 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::get('boards', \App\Livewire\Boards::class)->middleware('auth');
+Route::get('boards/{id}', \App\Livewire\ShowBoards::class)->middleware('auth')->name('boards.show');
