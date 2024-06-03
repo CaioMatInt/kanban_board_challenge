@@ -11,7 +11,7 @@ class Boards extends Component
     public Collection $boards;
     public string $name;
     public string $color_hash;
-    
+
     public Board $currentBoard;
 
     public int $createModalIsOpen = 0;
@@ -81,19 +81,18 @@ class Boards extends Component
             if (count($group['items']) > 1) {
                 $itemToBeReplaced = Board::where('order', $group['order'])->first();
 
-                $itemToBeReplacedOrder = $itemToBeReplaced->order;
-
                 foreach($group['items'] as $item) {
                     if ($item['value'] !== (string)$itemToBeReplaced->id) {
                         $replacingItem = Board::find($item['value']);
-                        $replacingItemOrder = $replacingItem->order;
                     }
                 }
             }
         }
 
         if (isset($replacingItem) && isset($itemToBeReplaced)) {
-            $replacingItem->order = $itemToBeReplacedOrder;
+            $replacingItemOrder = $replacingItem->order;
+
+            $replacingItem->order = $itemToBeReplaced->order;
             $replacingItem->save();
 
             $itemToBeReplaced->order = $replacingItemOrder;
