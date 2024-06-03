@@ -52,23 +52,25 @@
                                          wire:sortable-group.item-group="{{ $board->id }}" style="background-color: {{ $board->color_hash }};">
 
 
-                                        <div class="flex justify-between rounded-lg mb-2">
-                                            <div wire:key="board-{{ $board->id }}"
-                                                 wire:sortable-group.handle
-                                                 wire:sortable-group.item="{{ $board->id }}"
+                                        <div
+                                            wire:key="board-{{ $board->id }}"
+                                            wire:sortable-group.handle
+                                            wire:sortable-group.item="{{ $board->id }}"
+                                            class="flex justify-between rounded-lg mb-2">
+                                            <div
                                                  class="rounded-lg text-white text-lg h-32">
                                                 <span>{{ $board->name }}</span>
                                             </div>
 
                                             <div class="grid grid-cols-2 w-auto mt-1">
                                                 <div class="mr-1">
-                                                    <button class="text-gray-200"
+                                                    <button class="text-white"
                                                             wire:click.prevent="openEditModal('{{ $board->id }}')">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
                                                 </div>
                                                 <div class="mr-1">
-                                                    <button class="text-gray-200"
+                                                    <button class="text-white"
                                                             wire:click.prevent="openDeleteModal('{{ $board->id }}')">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
