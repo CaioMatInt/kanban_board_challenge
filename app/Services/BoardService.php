@@ -65,12 +65,17 @@ class BoardService
         return $currentMaxOrderBoard ? $currentMaxOrderBoard->order : 0;
     }
 
-    public function update(Board $board, string $name, string $colorHash): Board
+    public function update(Board $board, ?string $name, ?string $colorHash): Board
     {
-        $data = [
-            'name' => $name,
-            'color_hash' => $colorHash
-        ];
+        $data = [];
+
+        if ($colorHash) {
+            $data['color_hash'] = $colorHash;
+        }
+
+        if ($name) {
+            $data['name'] = $name;
+        }
 
         $updateRequest = new UpdateBoardRequest();
         $updateRequest->setBoardId($board->id);
@@ -83,10 +88,7 @@ class BoardService
 
         $validatedData = $validator->validated();
 
-        $board->update([
-            'name' => $validatedData['name'],
-            'color_hash' => $validatedData['color_hash']
-        ]);
+        $board->update($validatedData);
 
         return $board;
     }

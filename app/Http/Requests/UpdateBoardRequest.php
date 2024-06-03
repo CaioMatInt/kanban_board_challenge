@@ -24,8 +24,8 @@ class UpdateBoardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:boards,name,' . $this->boardId . ',id',
-            'color_hash' => 'required|string',
+            'name' => 'sometimes|min:5|unique:boards,name,' . $this->boardId . ',id',
+            'color_hash' => 'sometimes|string',
         ];
     }
 

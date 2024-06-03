@@ -138,20 +138,15 @@ class ShowBoards extends Component
 
     public function updateBoardName()
     {
-        $this->validate([
-            'name' => 'required|min:5',
-        ]);
-
-        Board::find($this->boardId)->update(['name' => $this->name]);
+        $this->boardService->update($this->board, $this->name, $this->colorHash);
         $this->groupData();
     }
 
     public function updated($value)
     {
         if ($value === 'colorHash') {
-            $this->board->update(['color_hash' => $this->colorHash]);
+            $this->boardService->update($this->board, null, $this->colorHash);
             $this->groupData();
-            $this->dispatch('att');
         }
     }
 
