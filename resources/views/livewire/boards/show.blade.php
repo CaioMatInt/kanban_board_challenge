@@ -96,7 +96,8 @@
                                          wire:sortable-group.item-group="{{ $list->id }}">
 
 
-                                        @foreach($data[$list->name] as $task)
+                                        @foreach($tasksByListNames[$list->name] as $task)
+
                                             <div wire:click="openTaskDetails('{{ $task->id }}')"
                                                  wire:key="task-{{ $task->id }}"
                                                  wire:sortable-group.handle

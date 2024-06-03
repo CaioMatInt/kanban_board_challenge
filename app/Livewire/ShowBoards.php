@@ -5,39 +5,36 @@ namespace App\Livewire;
 use App\Models\Board;
 use App\Models\BoardList;
 use App\Models\ListTask;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class ShowBoards extends Component
 {
     public $colorHash = '#bd054e';
+    public string $name;
+    public array $tasksByListNames = [];
 
-    public $board;
-    public $boardId;
+    public Board $board;
+    public int $boardId;
 
-    public $listNames = [];
-    public $lists;
-    public $data = [];
+    public Collection $lists;
+    public string $newListName;
 
-    public $name;
+    public string $newTaskName;
+    public string $newTaskDescription;
 
-    public $createListModalIsOpen = 0;
-    public $createTaskModalIsOpen = 0;
-    public $deleteListModalIsOpen = 0;
-
-    public $listName;
-
-    public $newTaskName;
-    public $newTaskDescription;
-
-    public $taskDetailName;
-    public $taskDetailDescription;
-
-    public $currentListIdToAddTask;
-
-    public $editTaskModalIsOpen = 0;
     public ListTask $taskDetails;
+    public string $taskDetailName;
+    public string $taskDetailDescription;
 
-    public $currentListIdToDelete;
+    public int $currentListIdToAddTask;
+
+    public int $currentListIdToDelete;
+
+    public int $createListModalIsOpen = 0;
+    public int $createTaskModalIsOpen = 0;
+    public int $deleteListModalIsOpen = 0;
+    public int $editTaskModalIsOpen = 0;
 
     public function mount($id)
     {
@@ -45,20 +42,16 @@ class ShowBoards extends Component
         $this->groupData();
     }
 
-    //@@TODO: reset fields
-    //@@TODO: renomear onde tiver elementos repetidos (id="exampleFormControlInput1") exemplo
-    //@@TODO resetar os fields sempre, verificar onde n resetei
     public function groupData()
     {
         $this->board = Board::find($this->boardId);
         $this->name = $this->board->name;
-        $this->listNames = BoardList::where('board_id', $this->boardId)->orderBy('order')->pluck('name')->toArray();
         $this->lists = BoardList::where('board_id', $this->boardId)->orderBy('order')->get();
-        $this->data = [];
+        $this->tasksByListNames = [];
 
-        foreach($this->lists as $list)
+        foreach ($this->lists as $list)
         {
-            $this->data[$list->name] = ListTask::where('board_list_id', $list->id)->orderBy('order')->get();
+            $this->tasksByListNames[$list->name] = ListTask::where('board_list_id', $list->id)->orderBy('order')->get();
         }
     }
 
@@ -85,22 +78,21 @@ class ShowBoards extends Component
 
     public function openModal()
     {
-        $this->name = '';
+        $this->newListName = '';
         $this->createListModalIsOpen = true;
     }
 
     public function closeModal()
     {
-        $this->name = '';
+        $this->newListName = '';
         $this->createListModalIsOpen = false;
     }
 
     public function store()
     {
         $this->validate([
-            'name' => 'required',
+            'newListName' => 'required',
         ]);
-
 
         $currentMaxOrderList = BoardList::select('order')->orderBy('order', 'desc')->first();
 
@@ -112,7 +104,7 @@ class ShowBoards extends Component
 
         //@@TODO: e se der erro?
         BoardList::create([
-            'name' => $this->name,
+            'name' => $this->newListName,
             'board_id' => $this->boardId,
             'order' => $order
         ]);
@@ -251,6 +243,5 @@ class ShowBoards extends Component
     public function closeDeleteListModal()
     {
         $this->deleteListModalIsOpen = false;
-        $this->currentListIdToDelete = null;
     }
 }
