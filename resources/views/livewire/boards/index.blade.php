@@ -1,15 +1,15 @@
 <div class="py-12">
 
     @if($isOpen)
-        @include('livewire.create')
+        @include('livewire.boards.create')
     @endif
 
     @if($editModalIsOpen)
-        @include('livewire.edit')
+        @include('livewire.boards.edit')
     @endif
 
     @if($deleteModalIsOpen)
-        @include('livewire.delete')
+        @include('livewire.boards.delete')
     @endif
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -43,22 +43,22 @@
 
             <div>
                 <div class="container mx-auto py-8">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" wire:sortable-group="updateBoardOrder">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                         wire:sortable-group="updateBoardOrder">
 
-                    @foreach($data as $board)
+                        @foreach($data as $board)
                             <div class="col-span-1" wire:key="group-{{ $board }}">
                                 <a href="{{ route('boards.show', $board->id) }}" class="block h-full w-full">
                                     <div class="bg-white rounded-lg shadow-md p-2 h-32 cursor-pointer"
-                                         wire:sortable-group.item-group="{{ $board->id }}" style="background-color: {{ $board->color_hash }};">
+                                         wire:sortable-group.item-group="{{ $board->id }}"
+                                         style="background-color: {{ $board->color_hash }};">
 
+                                        <div wire:key="board-{{ $board->id }}"
+                                             wire:sortable-group.handle
+                                             wire:sortable-group.item="{{ $board->id }}"
+                                             class="flex justify-between rounded-lg mb-2">
 
-                                        <div
-                                            wire:key="board-{{ $board->id }}"
-                                            wire:sortable-group.handle
-                                            wire:sortable-group.item="{{ $board->id }}"
-                                            class="flex justify-between rounded-lg mb-2">
-                                            <div
-                                                 class="rounded-lg text-white text-lg h-32">
+                                            <div class="rounded-lg text-white text-lg h-32">
                                                 <span>{{ $board->name }}</span>
                                             </div>
 
@@ -77,38 +77,37 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </a>
                             </div>
+
                         @endforeach
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-        <script>
+    <script>
+        function initializeColoris() {
+            if (document.querySelector('.clr-picker')) {
+                Coloris.close();
+            }
 
-                function initializeColoris() {
-                    if (document.querySelector('.clr-picker')) {
-                        Coloris.close();
-                    }
+            Coloris({
+                el: '#color-input',
+                theme: 'classic',
+                swatches: [
+                    '#264653',
+                    '#2a9d8f',
+                    '#e9c46a',
+                    '#f4a261',
+                    '#e76f51'
+                ],
+            });
+        }
 
-                    Coloris({
-                        el: '#color-input',
-                        theme: 'classic',
-                        swatches: [
-                            '#264653',
-                            '#2a9d8f',
-                            '#e9c46a',
-                            '#f4a261',
-                            '#e76f51'
-                        ],
-                    });
-                }
-
-                initializeColoris();
-
-        </script>
+        initializeColoris();
+    </script>
 </div>

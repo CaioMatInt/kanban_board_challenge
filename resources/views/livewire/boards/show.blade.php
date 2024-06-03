@@ -1,7 +1,7 @@
 <div class="py-12 h-96">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 h-96">
 
-    @if($createListModalIsOpen)
+        @if($createListModalIsOpen)
             @include('livewire.lists.create')
         @endif
 
@@ -45,6 +45,7 @@
                     @error('name') <span class="text-red-500">{{ $message }}</span>@enderror
 
                 </div>
+
                 <div class="text-center sm:text-right" wire:ignore>
                     <input type="text" id="color-input" value="{{ $board->color_hash }}">
 
@@ -83,9 +84,9 @@
                                                 </button>
                                             </div>
                                             <div class="mr-1">
-                                               <button class="text-gray-400 hover:text-red-700"
-                                                            wire:click="openDeleteListModal('{{ $list->id }}')">
-                                                        <i class="fas fa-trash-alt"></i>
+                                                <button class="text-gray-400 hover:text-red-700"
+                                                        wire:click="openDeleteListModal('{{ $list->id }}')">
+                                                    <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -110,7 +111,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -133,7 +133,8 @@
                         '#e76f51'
                     ],
                     onChange: (color) => {
-                        @this.set('color_hash', color);
+                        @this.
+                        set('color_hash', color);
 
                     }
                 });
@@ -142,4 +143,5 @@
             initializeColoris();
         });
     </script>
+
 </div>

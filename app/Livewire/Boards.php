@@ -67,7 +67,7 @@ class Boards extends Component
     public function render()
     {
         $this->boards = Board::all();
-        return view('livewire.boards');
+        return view('livewire.boards.index');
     }
 
     public function create()
