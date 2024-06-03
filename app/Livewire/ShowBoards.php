@@ -17,7 +17,7 @@ class ShowBoards extends Component
     private BoardListService $boardListService;
     private ListTaskService $listTaskService;
 
-    public $colorHash = '#bd054e';
+    public $colorHash;
     public string $name;
     public array $tasksByListNames = [];
 
