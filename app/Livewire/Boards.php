@@ -3,38 +3,79 @@
 namespace App\Livewire;
 
 use App\Models\Board;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class Boards extends Component
 {
-    public $data = [
-    ];
+    public Collection $boards;
+    public string $name;
+    public string $color_hash;
+    
+    public Board $currentBoard;
 
-    public $boards, $name, $color_hash, $board_id, $show = 0;
-    public $isOpen = 0;
+    public int $createModalIsOpen = 0;
+    public int $editModalIsOpen = 0;
+    public int $deleteModalIsOpen = 0;
 
-    public $editModalIsOpen = 0;
-    public $deleteModalIsOpen = 0;
-
-    public $currentBoardDetails;
-
-
-    public function mount()
+    public function mount(): void
     {
         $this->groupData();
     }
 
-    public function groupData()
+    public function groupData(): void
     {
-        $this->reset('data');
         $this->boards = Board::orderBy('order')->get();
-        foreach($this->boards as $board)
-        {
-            $this->data[$board->order] = $board;
-        }
     }
 
-    public function updateBoardOrder($orderedData)
+    public function render()
+    {
+        $this->boards = Board::orderBy('order')->get();
+        return view('livewire.boards.index');
+    }
+
+    public function store(): void
+    {
+        $this->validate([
+            'name' => 'required|unique:boards,name',
+        ]);
+
+        $currentMaxOrderBoard = Board::select('order')->orderBy('order', 'desc')->first();
+
+        if ($currentMaxOrderBoard) {
+            $order = $currentMaxOrderBoard->order + 1;
+        } else {
+            $order = 1;
+        }
+
+        Board::create([
+            'name' => $this->name,
+            'color_hash' => $this->color_hash,
+            'order' => $order
+        ]);
+
+        $this->closeCreateModal();
+        $this->groupData();
+    }
+
+    public function update(): void
+    {
+        $this->validate([
+            'name' => 'required|unique:boards,name,' . $this->currentBoard->id,
+            'color_hash' => 'required|string'
+        ]);
+
+        $this->currentBoard->update([
+            'name' => $this->name,
+            'color_hash' => $this->color_hash
+        ]);
+
+        session()->flash('message', 'Board updated successfully.');
+
+        $this->closeEditModal();
+    }
+
+    public function updateBoardOrder($orderedData): void
     {
         foreach ($orderedData as $group) {
             if (count($group['items']) > 1) {
@@ -44,8 +85,8 @@ class Boards extends Component
 
                 foreach($group['items'] as $item) {
                     if ($item['value'] !== (string)$itemToBeReplaced->id) {
-                       $replacingItem = Board::find($item['value']);
-                       $replacingItemOrder = $replacingItem->order;
+                        $replacingItem = Board::find($item['value']);
+                        $replacingItemOrder = $replacingItem->order;
                     }
                 }
             }
@@ -59,119 +100,51 @@ class Boards extends Component
             $itemToBeReplaced->save();
         }
 
-
-        $this->groupData();
-        return;
-    }
-
-    public function render()
-    {
-        $this->boards = Board::all();
-        return view('livewire.boards.index');
-    }
-
-    public function create()
-    {
-        $this->resetInputFields();
-        $this->openModal();
-    }
-
-    public function openModal()
-    {
-        $this->isOpen = true;
-    }
-
-    public function closeModal()
-    {
-        $this->isOpen = false;
-    }
-
-    private function resetInputFields(){
-        $this->name = '';
-        $this->color_hash = '';
-        $this->board_id = '';
-    }
-
-    public function store()
-    {
-        $this->validate([
-            'name' => 'required|unique:boards,name,' . $this->board_id,
-        ]);
-
-
-        $currentMaxOrderBoard = Board::select('order')->orderBy('order', 'desc')->first();
-
-        if ($currentMaxOrderBoard) {
-            $order = $currentMaxOrderBoard->order + 1;
-        } else {
-            $order = 1;
-        }
-
-        Board::updateOrCreate(['id' => $this->board_id], [
-            'name' => $this->name,
-            'color_hash' => $this->color_hash,
-            'order' => $order
-        ]);
-
-        session()->flash('message',
-            $this->board_id ? 'Board Updated Successfully.' : 'board Created Successfully.');
-
-        $this->closeModal();
-        $this->resetInputFields();
         $this->groupData();
     }
 
-    public function update()
+    public function delete(): void
     {
-        $this->validate([
-            'name' => 'required|unique:boards,name,' . $this->currentBoardDetails->id,
-            'color_hash' => 'required|string'
-        ]);
-
-        Board::find($this->currentBoardDetails->id)->update([
-            'name' => $this->name,
-            'color_hash' => $this->color_hash
-        ]);
-
-        session()->flash('message', 'Board Updated Successfully.');
-
-        $this->closeEditModal();
-    }
-
-    public function delete()
-    {
-        Board::find($this->currentBoardDetails->id)->delete();
-        session()->flash('message', 'Board Deleted Successfully.');
+        $this->currentBoard->delete();
+        session()->flash('message', 'Board deleted successfully.');
         $this->closeDeleteModal();
         $this->groupData();
     }
 
-    public function openEditModal($boardId)
+    public function openCreateModal(): void
     {
-        $this->currentBoardDetails = Board::find($boardId);
-        $this->name = $this->currentBoardDetails->name;
-        $this->color_hash = $this->currentBoardDetails->color_hash;
+        $this->name = '';
+        $this->color_hash = '';
+        $this->createModalIsOpen = true;
+    }
+
+    public function closeCreateModal(): void
+    {
+        $this->createModalIsOpen = false;
+    }
+
+    public function openEditModal($boardId): void
+    {
+        $this->currentBoard = Board::find($boardId);
+        $this->name = $this->currentBoard->name;
+        $this->color_hash = $this->currentBoard->color_hash;
         $this->editModalIsOpen = true;
     }
 
-    public function closeEditModal()
+    public function closeEditModal(): void
     {
-        $this->currentBoardDetails = null;
-        $this->name = null;
-        $this->color_hash = null;
         $this->editModalIsOpen = false;
         $this->groupData();
     }
 
-    public function openDeleteModal($boardId)
+    public function openDeleteModal($boardId): void
     {
-        $this->currentBoardDetails = Board::find($boardId);
+        $this->currentBoard = Board::find($boardId);
         $this->deleteModalIsOpen = true;
     }
 
-    public function closeDeleteModal()
+    public function closeDeleteModal(): void
     {
-        $this->currentBoardDetails = null;
         $this->deleteModalIsOpen = false;
     }
 }

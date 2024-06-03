@@ -80,7 +80,7 @@ class ShowBoards extends Component
 
     public function render()
     {
-        return view('livewire.show-boards');
+        return view('livewire.boards.show');
     }
 
     public function openModal()

@@ -98,7 +98,7 @@
 
                                         @foreach($data[$list->name] as $task)
                                             <div wire:click="openTaskDetails('{{ $task->id }}')"
-                                                 wire:key="lead-{{ $task->id }}"
+                                                 wire:key="task-{{ $task->id }}"
                                                  wire:sortable-group.handle
                                                  wire:sortable-group.item="{{ $task->id }}"
                                                  class="bg-gray-100 border-b rounded-lg p-2 mb-2 cursor-pointer">

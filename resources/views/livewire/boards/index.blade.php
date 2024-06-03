@@ -1,6 +1,6 @@
 <div class="py-12">
 
-    @if($isOpen)
+    @if($createModalIsOpen)
         @include('livewire.boards.create')
     @endif
 
@@ -32,7 +32,7 @@
                     Boards
                 </div>
                 <div class="text-center sm:text-right">
-                    <button wire:click="create()"
+                    <button wire:click="openCreateModal()"
                             class="bg-green-600 hover:bg-green-600 text-white py-1 mb-6 px-3 rounded my-3 mt-1">
                         + New Board
                     </button>
@@ -46,7 +46,8 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
                          wire:sortable-group="updateBoardOrder">
 
-                        @foreach($data as $board)
+                        @foreach($boards as $board)
+
                             <div class="col-span-1" wire:key="group-{{ $board }}">
                                 <a href="{{ route('boards.show', $board->id) }}" class="block h-full w-full">
                                     <div class="bg-white rounded-lg shadow-md p-2 h-32 cursor-pointer"
