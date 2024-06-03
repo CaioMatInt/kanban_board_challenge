@@ -22,10 +22,10 @@
                             @error('name') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div class="mb-4">
-                            <label for="color_hash" class="block text-gray-700 text-sm font-bold mb-2">Color:</label>
+                            <label for="colorHash" class="block text-gray-700 text-sm font-bold mb-2">Color:</label>
                             <input type="button"
                                    class="shadow appearance-none border rounded w-32 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                   id="color-input" wire:model="color_hash" placeholder="Click to choose a color">
+                                   id="color-input" wire:model="colorHash" placeholder="Click to choose a color">
                             @error('color') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                     </div>

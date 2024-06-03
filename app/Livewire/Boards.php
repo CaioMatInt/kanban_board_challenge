@@ -17,7 +17,7 @@ class Boards extends Component
 
     public Collection $boards;
     public string $name;
-    public string $color_hash;
+    public string $colorHash;
 
     public Board $currentBoard;
 
@@ -48,7 +48,7 @@ class Boards extends Component
     public function store(): void
     {
         try {
-            $this->boardService->create($this->name, $this->color_hash);
+            $this->boardService->create($this->name, $this->colorHash);
             $this->closeCreateModal();
             $this->groupData();
         } catch (ValidationException $e) {
@@ -58,7 +58,7 @@ class Boards extends Component
 
     public function update(): void
     {
-        $this->boardService->update($this->currentBoard, $this->name, $this->color_hash);
+        $this->boardService->update($this->currentBoard, $this->name, $this->colorHash);
 
         session()->flash('message', 'Board updated successfully.');
 
@@ -82,7 +82,7 @@ class Boards extends Component
     public function openCreateModal(): void
     {
         $this->name = '';
-        $this->color_hash = '';
+        $this->colorHash = '';
         $this->createModalIsOpen = true;
     }
 
@@ -95,7 +95,7 @@ class Boards extends Component
     {
         $this->currentBoard = $this->boardService->find($boardId);
         $this->name = $this->currentBoard->name;
-        $this->color_hash = $this->currentBoard->color_hash;
+        $this->colorHash = $this->currentBoard->color_hash;
         $this->editModalIsOpen = true;
     }
 

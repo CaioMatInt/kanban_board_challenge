@@ -134,7 +134,7 @@
                     ],
                     onChange: (color) => {
                         @this.
-                        set('color_hash', color);
+                        set('colorHash', color);
 
                     }
                 });

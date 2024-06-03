@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class ShowBoards extends Component
 {
-    public $color_hash = '#bd054e';
+    public $colorHash = '#bd054e';
 
     public $board;
     public $boardId;
@@ -225,8 +225,8 @@ class ShowBoards extends Component
 
     public function updated($value)
     {
-        if ($value === 'color_hash') {
-            $this->board->update(['color_hash' => $this->color_hash]);
+        if ($value === 'colorHash') {
+            $this->board->update(['color_hash' => $this->colorHash]);
             $this->groupData();
             $this->dispatch('att');
         }
