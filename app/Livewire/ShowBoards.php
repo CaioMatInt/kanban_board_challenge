@@ -43,8 +43,6 @@ class ShowBoards extends Component
     public int $deleteListModalIsOpen = 0;
     public int $editTaskModalIsOpen = 0;
 
-
-    //@@TODO: Bug when there are two lists with the same name
     public function boot(
         BoardService $boardService,
         BoardListService $boardListService,
@@ -75,7 +73,7 @@ class ShowBoards extends Component
         $this->tasksByListNames = [];
 
         foreach ($this->lists as $list) {
-            $this->tasksByListNames[$list->name] = $this->listTaskService->getOrderedByBoardListId($list->id);
+            $this->tasksByListNames[$list->id] = $this->listTaskService->getOrderedByBoardListId($list->id);
         }
     }
 
@@ -111,28 +109,9 @@ class ShowBoards extends Component
         $this->groupData();
     }
 
-    public function storeNewTask()
+    public function storeNewTask(): void
     {
-        $this->validate([
-            'newTaskName' => 'required',
-        ]);
-
-        $currentMaxOrderTask = ListTask::select('order')->orderBy('order', 'desc')->first();
-
-        if ($currentMaxOrderTask) {
-            $order = $currentMaxOrderTask->order + 1;
-        } else {
-            $order = 1;
-        }
-
-        $list = BoardList::find($this->currentListIdToAddTask);
-
-        ListTask::create([
-            'name' => $this->newTaskName,
-            'description' => $this->newTaskDescription,
-            'board_list_id' => $list->id,
-            'order' => $order
-        ]);
+        $this->listTaskService->create($this->newTaskName, $this->newTaskDescription, $this->currentListIdToAddTask);
 
         session()->flash('message','Task created successfully.');
 

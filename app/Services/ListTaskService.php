@@ -2,8 +2,11 @@
 
 namespace App\Services;
 
+use App\Http\Requests\StoreListTaskRequest;
 use App\Models\BoardList;
 use App\Models\ListTask;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class ListTaskService
 {
@@ -25,7 +28,7 @@ class ListTaskService
             {
                 $boardList = $this->boardListService->find((int) $group['value']);
 
-                ListTask::find($item['value'])->update([
+                $this->model::find($item['value'])->update([
                     "order" => $item['order'],
                     "board_list_id" => $boardList->id
                 ]);
@@ -37,5 +40,37 @@ class ListTaskService
     public function deleteByBoardListId(int $boardListId): void
     {
         $this->model->where('board_list_id', $boardListId)->delete();
+    }
+
+    public function create(string $name, string $description, int $boardListId): void
+    {
+        $data = [
+            'newTaskName' => $name,
+            'description' => $description,
+        ];
+
+        $validator = Validator::make($data, (new StoreListTaskRequest())->rules());
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
+
+        $validatedData = $validator->validated();
+
+        $order = $this->getMaxOrder() + 1;
+
+        $this->model::create([
+            'name' => $validatedData['newTaskName'],
+            'description' => $validatedData['description'],
+            'board_list_id' => $boardListId,
+            'order' => $order
+        ]);
+    }
+
+    public function getMaxOrder(): int
+    {
+        $task = $this->model::select('order')->orderBy('order', 'desc')->first();
+
+        return $task ? $task->order : 0;
     }
 }
