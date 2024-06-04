@@ -118,7 +118,7 @@ class ShowBoards extends Component
         $this->groupData();
     }
 
-    public function updateTaskDetails()
+    public function updateTaskDetails(): void
     {
         $this->validate([
             'taskDetailName' => 'required',
@@ -135,13 +135,16 @@ class ShowBoards extends Component
         $this->groupData();
     }
 
-    public function updateBoardName()
+    public function updateBoardName(): void
     {
         $this->boardService->update($this->board, $this->name, $this->colorHash);
         $this->groupData();
     }
 
-    public function updated($value)
+    //@@TODO: This is very problematic in terms of performance since the user can change the color quickly
+    // using the picker, which results in many requests. Ideally, we should refactor this by adding a confirmation
+    // button to the color picker element, so the update request is made only after the user has chosen the final color.
+    public function updated($value): void
     {
         if ($value === 'colorHash') {
             $this->boardService->update($this->board, null, $this->colorHash);
@@ -149,7 +152,7 @@ class ShowBoards extends Component
         }
     }
 
-    public function deleteTask()
+    public function deleteTask(): void
     {
         $this->listTaskService->delete($this->taskDetails);
 
@@ -159,19 +162,19 @@ class ShowBoards extends Component
         $this->groupData();
     }
 
-    public function openCreateListModal()
+    public function openCreateListModal(): void
     {
         $this->newListName = '';
         $this->createListModalIsOpen = true;
     }
 
-    public function closeCreateListModal()
+    public function closeCreateListModal(): void
     {
         $this->newListName = '';
         $this->createListModalIsOpen = false;
     }
 
-    public function openCreateTaskModal($listId)
+    public function openCreateTaskModal($listId): void
     {
         $this->currentListIdToAddTask = $listId;
         $this->newTaskDescription = '';
@@ -179,14 +182,14 @@ class ShowBoards extends Component
         $this->createTaskModalIsOpen = true;
     }
 
-    public function closeCreateTaskModal()
+    public function closeCreateTaskModal(): void
     {
         $this->newTaskDescription = '';
         $this->newTaskName = '';
         $this->createTaskModalIsOpen = false;
     }
 
-    public function openTaskDetails($id)
+    public function openTaskDetails($id): void
     {
         $this->editTaskModalIsOpen = true;
         $this->taskDetails = $this->listTaskService->find($id);
@@ -194,18 +197,18 @@ class ShowBoards extends Component
         $this->taskDetailDescription = $this->taskDetails->description;
     }
 
-    public function closeTaskDetails()
+    public function closeTaskDetails(): void
     {
         $this->editTaskModalIsOpen = false;
     }
 
-    public function openDeleteListModal($id)
+    public function openDeleteListModal($id): void
     {
         $this->deleteListModalIsOpen = true;
         $this->currentListIdToDelete = $id;
     }
 
-    public function closeDeleteListModal()
+    public function closeDeleteListModal(): void
     {
         $this->deleteListModalIsOpen = false;
     }
