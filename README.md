@@ -24,7 +24,7 @@ The tests are being developed with the [PEST framework](https://pestphp.com/) fo
 
 Note: The code is not 100% covered. There are only some tests for the Service classes and some tests for the Boards Livewire component. Since I had never used Livewire before this challenge, I didn't use TDD, as I had to understand how Livewire works while coding.
 
-I am developing an API with test coverage if you are interested in reviewing it: https://github.com/CaioMatInt/laramultipay_payment_gateways_integration
+I am developing an API with test coverage if you are interested in checking it: https://github.com/CaioMatInt/laramultipay_payment_gateways_integration
 
 ![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/838202e1-7913-4c43-9086-3918875d2c3a)
 
