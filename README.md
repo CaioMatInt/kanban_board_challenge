@@ -22,6 +22,13 @@ This project uses Laravel Sail for the local development environment. Please che
 
 The tests are being developed with the [PEST framework](https://pestphp.com/) for Laravel. You can run them by executing "php artisan test" in the root folder. The tests can be found in the "app/tests" directory.
 
+Note: The code is not 100% covered. There are only tests for the Service classes. Since I had never used Livewire before this challenge, I didn't use TDD in this case, as I had to manually learn and understand how it works.
+
+I am developing an API with test coverage if you are interested in reviewing it: [https://github.com/xxx/laramultipay_payment_gateways_integration](https://github.com/CaioMatInt/laramultipay_payment_gateways_integration)
+
+![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/90b8e7b7-28fa-4bd2-910b-14a3cecb5f15)
+
+
 ## How to test it
 
 Open http://206.81.14.66/ (or localhost if you're testing it locally) and click on login.
