@@ -33,7 +33,7 @@ I am developing an API with test coverage if you are interested in reviewing it:
 
 Open http://206.81.14.66/ (or localhost if you're testing it locally) and click on login.
 
-![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/afc9d27c-3719-4048-a5e1-c66a8650cd88)
+![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/6ad668b1-6237-437f-b7c2-ff36c8a982e6)
 
 The form already has a default username and password filled in. Click on login.
 
