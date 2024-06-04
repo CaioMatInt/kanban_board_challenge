@@ -22,7 +22,7 @@ This project uses Laravel Sail for the local development environment. Please che
 
 The tests are being developed with the [PEST framework](https://pestphp.com/) for Laravel. You can run them by executing "php artisan test" in the root folder. The tests can be found in the "app/tests" directory.
 
-Note: The code is not 100% covered. There are only tests for the Service classes. Since I had never used Livewire before this challenge, I didn't use TDD in this case, as I had to manually learn and understand how it works.
+Note: The code is not 100% covered. There are only some tests for the Service classes. Since I had never used Livewire before this challenge, I didn't use TDD in this case, as I had to manually learn and understand how it works.
 
 I am developing an API with test coverage if you are interested in reviewing it: https://github.com/CaioMatInt/laramultipay_payment_gateways_integration
 
