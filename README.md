@@ -55,7 +55,9 @@ Some prints:
 
 ![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/95cf7650-9058-4bcd-a422-a4ca9a7aecf9)
 
+## Know Issues
 
+Should refactor the HTML/frontend code to utilize components and eliminate repetitive code.
 
 
 
