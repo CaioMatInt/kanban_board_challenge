@@ -42,13 +42,11 @@ After logging in, feel free to test all CRUD operations for boards, lists, and t
 
 Some prints:
 
-![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/8a99dac9-e6a0-43c3-be49-af805a10ef69)
+![Animation](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/9a753631-29b7-4260-ab6d-8a23998a5816)
 
 ![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/365e8e36-a974-4939-b0a7-a0a806cccc04)
 
 ![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/d270d84d-7616-499a-befa-82fe3d00d348)
-
-![Animation](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/9a753631-29b7-4260-ab6d-8a23998a5816)
 
 ![Animation2](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/0a644ba3-d7de-4ba7-9e27-d221cd76bdcb)
 
