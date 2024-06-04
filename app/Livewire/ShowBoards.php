@@ -143,7 +143,8 @@ class ShowBoards extends Component
 
     //@@TODO: This is very problematic in terms of performance since the user can change the color quickly
     // using the picker, which results in many requests. Ideally, I should refactor this by adding a confirmation
-    // button to the color picker element, so the update request is made only after the user has chosen the final color.
+    // button to the color picker element, so the update request would be made only after the user has chosen
+    // the final color.
     public function updated($value): void
     {
         if ($value === 'colorHash') {
