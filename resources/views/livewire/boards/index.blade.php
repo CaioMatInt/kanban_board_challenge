@@ -48,7 +48,7 @@
 
                         @foreach($boards as $board)
 
-                            <div class="col-span-1" wire:key="group-{{ $board }}">
+                            <div class="board-container col-span-1" wire:key="group-{{ $board }}">
                                 <a href="{{ route('boards.show', $board->id) }}" class="block h-full w-full">
                                     <div class="bg-white rounded-lg shadow-md p-2 h-32 cursor-pointer"
                                          wire:sortable-group.item-group="{{ $board->id }}"
