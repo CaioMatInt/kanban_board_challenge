@@ -25,8 +25,7 @@ class BoardListService
     public function create(string $name, int $boardId): BoardList
     {
         $data = [
-            'newListName' => $name,
-            'board_id' => $boardId
+            'newListName' => $name
         ];
 
         $validator = Validator::make($data, (new StoreBoardListRequest())->rules());
