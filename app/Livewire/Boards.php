@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Board;
 use App\Services\BoardService;
-use App\Trait\Livewire\ValidationHandlingTrait;
+use App\Traits\Livewire\ValidationHandlingTrait;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;

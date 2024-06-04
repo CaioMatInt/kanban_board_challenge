@@ -4,11 +4,14 @@ namespace App\Services;
 
 use App\Http\Requests\StoreBoardListRequest;
 use App\Models\BoardList;
+use App\Traits\Database\ModelDeletableTrait;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class BoardListService
 {
+    use ModelDeletableTrait;
+
     public function __construct(private readonly BoardList $model)
     { }
 
@@ -58,6 +61,6 @@ class BoardListService
 
     public function delete(BoardList $list): void
     {
-        $list->delete();
+        $this->deleteRecord($list);
     }
 }

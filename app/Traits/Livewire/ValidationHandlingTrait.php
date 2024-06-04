@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Trait\Livewire;
+namespace App\Traits\Livewire;
 
 use Illuminate\Validation\ValidationException;
 

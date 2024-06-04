@@ -31,7 +31,15 @@ class BoardService
 
     public function destroy(int $id): void
     {
-        $this->model::destroy($id);
+        $board = $this->model::find($id);
+        $board->lists->each(function ($list) {
+            $list->tasks->each(function ($task) {
+                $task->delete();
+            });
+            $list->delete();
+        });
+
+        $board->delete();
     }
 
     public function create(string $name, string $colorHash): Board

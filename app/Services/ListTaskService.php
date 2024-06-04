@@ -4,11 +4,14 @@ namespace App\Services;
 
 use App\Http\Requests\StoreListTaskRequest;
 use App\Models\ListTask;
+use App\Traits\Database\ModelDeletableTrait;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class ListTaskService
 {
+    use ModelDeletableTrait;
+
     public function __construct(
         private readonly ListTask $model,
         private BoardListService $boardListService
@@ -62,11 +65,6 @@ class ListTaskService
         return $task ? $task->order : 0;
     }
 
-    public function delete(ListTask $task): void
-    {
-        $task->delete();
-    }
-
     public function updateTaskOrderOrGroup(array $orderedData): void
     {
         foreach ($orderedData as $group) {
@@ -81,5 +79,10 @@ class ListTaskService
 
             }
         }
+    }
+
+    public function delete(ListTask $task): void
+    {
+        $this->deleteRecord($task);
     }
 }
