@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->integer('order');
-            $table->foreignIdFor(BoardList::class);
+            $table->foreignIdFor(BoardList::class)->constrained();
             $table->timestamps();
         });
     }

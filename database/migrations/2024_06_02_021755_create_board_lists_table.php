@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('order');
-            $table->foreignIdFor(Board::class);
+            $table->foreignIdFor(Board::class)->constrained();
             $table->timestamps();
         });
     }
