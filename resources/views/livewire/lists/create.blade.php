@@ -9,7 +9,7 @@
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>​
 
         <div
-            class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+            class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full mb-60 sm:mb-0"
             role="dialog" aria-modal="true" aria-labelledby="modal-headline">
             <form onsubmit="event.preventDefault();">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
