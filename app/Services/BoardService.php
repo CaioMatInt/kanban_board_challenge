@@ -5,19 +5,17 @@ namespace App\Services;
 use App\Http\Requests\StoreBoardRequest;
 use App\Http\Requests\UpdateBoardRequest;
 use App\Models\Board;
+use App\Traits\Database\FindableTrait;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class BoardService
 {
+    use FindableTrait;
+
     public function __construct(private readonly Board $model)
     { }
-
-    public function find(int $id): Board
-    {
-        return $this->model::find($id);
-    }
 
     public function findByOrder(int $order): Board
     {

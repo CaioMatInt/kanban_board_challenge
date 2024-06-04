@@ -4,24 +4,20 @@ namespace App\Services;
 
 use App\Http\Requests\StoreListTaskRequest;
 use App\Models\ListTask;
+use App\Traits\Database\FindableTrait;
 use App\Traits\Database\ModelDeletableTrait;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class ListTaskService
 {
-    use ModelDeletableTrait;
+    use ModelDeletableTrait, FindableTrait;
 
     public function __construct(
         private readonly ListTask $model,
         private BoardListService $boardListService
     )
     { }
-
-    public function find(int $id): object
-    {
-        return $this->model::find($id);
-    }
 
     public function getOrderedByBoardListId(int $boardListId): object
     {
@@ -48,7 +44,7 @@ class ListTaskService
 
         $validatedData = $validator->validated();
 
-        $order = $this->getMaxOrder() + 1;
+        $order = $this->getMaxOrder($boardListId) + 1;
 
         $this->model::create([
             'name' => $validatedData['newTaskName'],
@@ -58,9 +54,9 @@ class ListTaskService
         ]);
     }
 
-    public function getMaxOrder(): int
+    public function getMaxOrder(int $boardListId): int
     {
-        $task = $this->model::select('order')->orderBy('order', 'desc')->first();
+        $task = $this->model::select('order')->where('board_list_id', $boardListId)->orderBy('order', 'desc')->first();
 
         return $task ? $task->order : 0;
     }

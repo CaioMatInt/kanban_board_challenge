@@ -4,21 +4,17 @@ namespace App\Services;
 
 use App\Http\Requests\StoreBoardListRequest;
 use App\Models\BoardList;
+use App\Traits\Database\FindableTrait;
 use App\Traits\Database\ModelDeletableTrait;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class BoardListService
 {
-    use ModelDeletableTrait;
+    use ModelDeletableTrait, FindableTrait;
 
     public function __construct(private readonly BoardList $model)
     { }
-
-    public function find(int $id): object
-    {
-        return $this->model->find($id);
-    }
 
     public function getOrderedByBoardId(int $boardId): object
     {
