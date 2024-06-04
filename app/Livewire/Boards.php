@@ -53,7 +53,6 @@ class Boards extends Component
             $this->closeCreateModal();
             $this->groupData();
         } catch (ValidationException $e) {
-
             $this->handleValidationError($e);
         }
     }
