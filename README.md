@@ -26,7 +26,7 @@ Note: The code is not 100% covered. There are only some tests for the Service cl
 
 I am developing an API with test coverage if you are interested in reviewing it: https://github.com/CaioMatInt/laramultipay_payment_gateways_integration
 
-![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/8e2ccfd6-745e-4707-bb48-e990e69654bd)
+![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/838202e1-7913-4c43-9086-3918875d2c3a)
 
 ## How to test it
 
