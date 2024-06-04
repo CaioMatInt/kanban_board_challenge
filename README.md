@@ -49,9 +49,10 @@ Some prints:
 
 ![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/d270d84d-7616-499a-befa-82fe3d00d348)
 
-![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/7ab2e3ea-5a4b-4eeb-9df0-048f6b297dc7)
+![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/70ab8f0d-868c-4b59-9c90-046316c646c6)
 
-![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/85e7504a-56b8-4277-b74b-d4fb817f7f82)
+![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/95cf7650-9058-4bcd-a422-a4ca9a7aecf9)
+
 
 
 
