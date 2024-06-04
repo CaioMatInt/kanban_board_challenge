@@ -91,24 +91,26 @@
     </div>
 
     <script>
-        function initializeColoris() {
-            if (document.querySelector('.clr-picker')) {
-                Coloris.close();
+        document.addEventListener('DOMContentLoaded', function () {
+            function initializeColoris() {
+                if (document.querySelector('.clr-picker')) {
+                    Coloris.close();
+                }
+
+                Coloris({
+                    el: '#color-input',
+                    theme: 'classic',
+                    swatches: [
+                        '#264653',
+                        '#2a9d8f',
+                        '#e9c46a',
+                        '#f4a261',
+                        '#e76f51'
+                    ],
+                });
             }
 
-            Coloris({
-                el: '#color-input',
-                theme: 'classic',
-                swatches: [
-                    '#264653',
-                    '#2a9d8f',
-                    '#e9c46a',
-                    '#f4a261',
-                    '#e76f51'
-                ],
-            });
-        }
-
-        initializeColoris();
+            initializeColoris();
+        });
     </script>
 </div>
