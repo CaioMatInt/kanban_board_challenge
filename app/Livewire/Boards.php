@@ -20,6 +20,7 @@ class Boards extends Component
     public string $colorHash;
 
     public Board $currentBoard;
+    public int $currentBoardId;
 
     public int $createModalIsOpen = 0;
     public int $editModalIsOpen = 0;
@@ -73,7 +74,7 @@ class Boards extends Component
 
     public function delete(): void
     {
-        $this->boardService->destroy($this->currentBoard->id);
+        $this->boardService->destroy($this->currentBoardId);
         session()->flash('message', 'Board deleted successfully.');
         $this->closeDeleteModal();
         $this->groupData();
@@ -107,7 +108,7 @@ class Boards extends Component
 
     public function openDeleteModal($boardId): void
     {
-        $this->currentBoard = $this->boardService->find($boardId);
+        $this->currentBoardId = $boardId;
         $this->deleteModalIsOpen = true;
     }
 
