@@ -113,7 +113,7 @@ class BoardService
     {
         [$itemToBeReplaced, $replacingItem] = $this->findItemToBeReplacedAndReplacingItem($orderedData);
 
-        if (isset($replacingItem) && isset($itemToBeReplaced)) {
+        if ($replacingItem && $itemToBeReplaced) {
             $this->switchBoardsOrders($itemToBeReplaced, $replacingItem);
         }
     }
@@ -146,6 +146,10 @@ class BoardService
                     }
                 }
             }
+        }
+
+        if (!isset($itemToBeReplaced) || !isset($replacingItem)) {
+            return [null, null];
         }
 
         return [$itemToBeReplaced, $replacingItem];
