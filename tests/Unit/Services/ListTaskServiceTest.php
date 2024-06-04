@@ -151,13 +151,19 @@ describe('ListTaskServiceTest', function () {
             ])->create();
         }
 
-        $maxOrder = $this->listTaskService->getMaxOrder();
+        $maxOrder = $this->listTaskService->getMaxOrder($boardList->id);
 
         expect($maxOrder)->toBe(3);
     });
 
     test('should return 0 while getting the max order if there are no tasks', function () {
-        $maxOrder = $this->listTaskService->getMaxOrder();
+        $board = Board::factory()->create();
+        $boardList = BoardList::factory()->create([
+            'board_id' => $board->id,
+            'order' => 1
+        ]);
+
+        $maxOrder = $this->listTaskService->getMaxOrder($boardList->id);
 
         expect($maxOrder)->toBe(0);
     });
