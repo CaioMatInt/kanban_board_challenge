@@ -26,7 +26,7 @@
                             <input type="button"
                                    class="shadow appearance-none border rounded w-32 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                    id="color-input" wire:model="colorHash" placeholder="Click to choose a color">
-                            @error('color') <span class="text-red-500">{{ $message }}</span>@enderror
+                            @error('color_hash') <p></p><span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                     </div>
                 </div>
