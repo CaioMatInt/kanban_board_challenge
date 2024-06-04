@@ -19,16 +19,36 @@ class ListTaskService
     )
     { }
 
+    /**
+     * Get all list tasks by board list id ordered by order.
+     *
+     * @param int $boardListId
+     * @return object
+     */
     public function getOrderedByBoardListId(int $boardListId): object
     {
         return $this->model->where('board_list_id', $boardListId)->orderBy('order')->get();
     }
 
+    /**
+     * Delete all list tasks by board list id.
+     *
+     * @param int $boardListId
+     * @return void
+     */
     public function deleteByBoardListId(int $boardListId): void
     {
         $this->model->where('board_list_id', $boardListId)->delete();
     }
 
+    /**
+     * Create a new list task.
+     *
+     * @param string $name
+     * @param string $description
+     * @param int $boardListId
+     * @return void
+     */
     public function create(string $name, string $description, int $boardListId): void
     {
         $data = [
@@ -54,6 +74,12 @@ class ListTaskService
         ]);
     }
 
+    /**
+     * Get the maximum order value by board list id. If no records are found, return 0.
+     *
+     * @param int $boardListId
+     * @return int
+     */
     public function getMaxOrder(int $boardListId): int
     {
         $task = $this->model::select('order')->where('board_list_id', $boardListId)->orderBy('order', 'desc')->first();
@@ -61,6 +87,15 @@ class ListTaskService
         return $task ? $task->order : 0;
     }
 
+    /**
+     * Update a list task order or its group. $orderedData is an array of groups, each group has an array of items.
+     *  Documentation: https://github.com/livewire/sortable
+     *
+     * @param int $id
+     * @param string $name
+     * @param string $description
+     * @return void
+     */
     public function updateTaskOrderOrGroup(array $orderedData): void
     {
         foreach ($orderedData as $group) {
@@ -77,6 +112,12 @@ class ListTaskService
         }
     }
 
+    /**
+     * Delete a list task.
+     *
+     * @param ListTask $task
+     * @return void
+     */
     public function delete(ListTask $task): void
     {
         $this->deleteRecord($task);

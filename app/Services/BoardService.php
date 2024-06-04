@@ -17,16 +17,33 @@ class BoardService
     public function __construct(private readonly Board $model)
     { }
 
+    /**
+     * Find a board by its order.
+     *
+     * @param int $order
+     * @return Board
+     */
     public function findByOrder(int $order): Board
     {
         return $this->model::where('order', $order)->first();
     }
 
+    /**
+     * Get all boards ordered by order.
+     *
+     * @return Collection
+     */
     public function getAllOrderedByOrder(): Collection
     {
         return $this->model::orderBy('order')->get();
     }
 
+    /**
+     * Delete a board by its id. It also deletes all lists and tasks associated with the board.
+     *
+     * @param int $id
+     * @return void
+     */
     public function destroy(int $id): void
     {
         $board = $this->model::find($id);
@@ -40,6 +57,13 @@ class BoardService
         $board->delete();
     }
 
+    /**
+     * Create a new board.
+     *
+     * @param string $name
+     * @param string $colorHash
+     * @return Board
+     */
     public function create(string $name, string $colorHash): Board
     {
         $data = [
@@ -64,6 +88,11 @@ class BoardService
         ]);
     }
 
+    /**
+     * Get the maximum order value of the board. If no records are found, return 0.
+     *
+     * @return int
+     */
     public function getMaxOrder(): int
     {
         $currentMaxOrderBoard = Board::select('order')->orderBy('order', 'desc')->first();
@@ -71,6 +100,14 @@ class BoardService
         return $currentMaxOrderBoard ? $currentMaxOrderBoard->order : 0;
     }
 
+    /**
+     * Update a board.
+     *
+     * @param Board $board
+     * @param string|null $name
+     * @param string|null $colorHash
+     * @return Board
+     */
     public function update(Board $board, ?string $name, ?string $colorHash): Board
     {
         $data = [];
@@ -161,6 +198,13 @@ class BoardService
         return [$itemToBeReplaced, $replacingItem];
     }
 
+    /**
+     * Switch the orders of two boards.
+     *
+     * @param Board $itemToBeReplaced
+     * @param Board $replacingItem
+     * @return void
+     */
     private function switchBoardsOrders(Board $itemToBeReplaced, Board $replacingItem): void
     {
         $replacingItemOrder = $replacingItem->order;
