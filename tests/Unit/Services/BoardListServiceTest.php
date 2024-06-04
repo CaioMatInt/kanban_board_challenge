@@ -9,7 +9,7 @@ use Illuminate\Validation\ValidationException;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-describe('BoardServiceTest', function () {
+describe('BoardListServiceTest', function () {
 
     beforeEach(function () {
         $this->boardListService = app(BoardListService::class);
@@ -105,7 +105,7 @@ describe('BoardServiceTest', function () {
         $this->boardListService->delete($boardList);
         $deletedBoardList = BoardList::find($boardList->id);
         expect($deletedBoardList)->toBeNull();
-        
+
         $this->assertDatabaseMissing('board_lists', [
             'id' => $boardList->id,
         ]);
