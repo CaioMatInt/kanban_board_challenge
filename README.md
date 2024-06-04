@@ -1,66 +1,51 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Description
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+The technical challenge is described as follows:
+Develop a simple Kanban board application using Laravel 10 and Livewire, featuring user authentication and basic project management capabilities.
 
-## About Laravel
+## Application Link
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+http://206.81.14.66/
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## How to test it locally
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+This project uses Laravel Sail for the local development environment. Please check the official documentation for running it locally (https://laravel.com/docs/11.x/sail).
 
-## Learning Laravel
+## Database diagram
+![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/3774aa22-e585-41af-b604-9dc5345807db)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Technologies used
+![image description](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)![image description](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/abc8770a-cd58-44a8-9c9f-b3617888b061)![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/3d69d44d-73ca-48a8-8611-df67e8e4fe5f)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Tests 
+<img src="https://github.com/CaioMatInt/payment_gateways_integration/assets/40992883/9be42c02-f192-4daf-809a-90a35aca2b77" width="130" height="70">
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+The tests are being developed with the [PEST framework](https://pestphp.com/) for Laravel. You can run them by executing "php artisan test" in the root folder. The tests can be found in the "app/tests" directory.
 
-## Laravel Sponsors
+## How to test it
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Open http://206.81.14.66/ (or localhost if you're testing it locally) and click on login.
 
-### Premium Partners
+![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/afc9d27c-3719-4048-a5e1-c66a8650cd88)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+The form already has a default username and password filled in. Click on login.
 
-## Contributing
+![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/42f266b3-a5fc-43cd-8153-cda993e92dfb)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+After logging in, feel free to test all CRUD operations for boards, lists, and tasks.
 
-## Code of Conduct
+Some prints:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/8a99dac9-e6a0-43c3-be49-af805a10ef69)
 
-## Security Vulnerabilities
+![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/365e8e36-a974-4939-b0a7-a0a806cccc04)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/d270d84d-7616-499a-befa-82fe3d00d348)
 
-## License
+![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/7ab2e3ea-5a4b-4eeb-9df0-048f6b297dc7)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/85e7504a-56b8-4277-b74b-d4fb817f7f82)
+
+
+
+
