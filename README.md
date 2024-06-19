@@ -3,10 +3,6 @@
 The technical challenge is described as follows:
 Develop a simple Kanban board application using Laravel 10 and Livewire, featuring user authentication and basic project management capabilities.
 
-## Application Link
-
-http://206.81.14.66/
-
 ## How to test it locally
 
 This project uses Laravel Sail for the local development environment. Please check the official documentation for running it locally (https://laravel.com/docs/11.x/sail).
