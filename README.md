@@ -27,7 +27,7 @@ Current tests print:
 
 ## How to test it
 
-Open http://206.81.14.66/ (or localhost if you're testing it locally) and click on login
+Open http://206.81.14.66/ (or localhost if you're testing it locally) and click on login.
 
 ![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/6ad668b1-6237-437f-b7c2-ff36c8a982e6)
 
