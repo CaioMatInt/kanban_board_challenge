@@ -3,10 +3,6 @@
 The technical challenge is described as follows:
 Develop a simple Kanban board application using Laravel 10 and Livewire, featuring user authentication and basic project management capabilities.
 
-## Application Link
-
-http://206.81.14.66/
-
 ## How to test it locally
 
 This project uses Laravel Sail for the local development environment. Please check the official documentation for running it locally (https://laravel.com/docs/11.x/sail).
@@ -22,10 +18,11 @@ This project uses Laravel Sail for the local development environment. Please che
 
 The tests are being developed with the [PEST framework](https://pestphp.com/) for Laravel. You can run them by executing "php artisan test" in the root folder. The tests can be found in the "app/tests" directory.
 
-Note: The code is not 100% covered. There are only some tests for the Service classes and some tests for the Boards Livewire component. Since I had never used Livewire before this challenge, I didn't use TDD in this case, as I had to manually learn and understand how Livewire works.
+Note: The code is not 100% covered. There are only some tests for the Service classes and some tests for the Boards Livewire component. Since I had never used Livewire before this challenge, I didn't use TDD, as I had to understand how Livewire works while coding.
 
-I am developing an API with test coverage if you are interested in reviewing it: https://github.com/CaioMatInt/laramultipay_payment_gateways_integration
+I am developing an API with test coverage if you are interested in checking it: https://github.com/CaioMatInt/laramultipay_payment_gateways_integration
 
+Current tests print:
 ![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/838202e1-7913-4c43-9086-3918875d2c3a)
 
 ## How to test it
@@ -54,7 +51,9 @@ Some prints:
 
 ![image](https://github.com/CaioMatInt/kanban_board_challenge/assets/40992883/95cf7650-9058-4bcd-a422-a4ca9a7aecf9)
 
+## Know Issues
 
+Should refactor the HTML/frontend code to utilize components and eliminate repetitive code.
 
 
 
